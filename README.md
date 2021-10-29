@@ -21,5 +21,5 @@ Feel free to dm me for help about this base, ! zPrestige_#1514.
 ## Testing
 * use runClient under forgegradle runs.
 
-##License
+## License
 Feel free to use this, credits are not necessary but are appreciated.
