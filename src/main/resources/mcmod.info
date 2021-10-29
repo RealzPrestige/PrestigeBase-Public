@@ -1,0 +1,18 @@
+[
+  {
+    "modid": "prestigebase",
+    "name": "PrestigeBase",
+    "description": "Client Base by zPrestige_ for Anarchy clients.",
+    "version": "",
+    "mcversion": "",
+    "url": "",
+    "updateUrl": "",
+    "authorList": [
+      "zPrestige_"
+    ],
+    "credits": "",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]

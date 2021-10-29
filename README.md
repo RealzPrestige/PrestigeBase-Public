@@ -14,5 +14,12 @@ Feel free to dm me for help about this base, ! zPrestige_#1514.
 * [My Youtube](https://www.youtube.com/channel/UCQTNW6i3K5nSFw7-fvnJ90A)
 * [My NameMc](https://namemc.com/profile/zPrestige_.1)
 
+## Gettng Started
+* Run setupDecompWorkspace
+* refresh Gradle
+
+## Testing
+* use runClient under forgegradle runs.
+
 ##License
 Feel free to use this, credits are not necessary but are appreciated.
