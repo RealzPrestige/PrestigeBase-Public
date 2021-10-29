@@ -16,7 +16,7 @@ public class ClickGui extends Module {
     @Override
     public void initializeModule() {
         setInstance();
-        setKeyBind(Keyboard.KEY_O);
+        setKeyBind(Keyboard.KEY_RSHIFT);
     }
 
     @Override
