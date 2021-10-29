@@ -4,6 +4,7 @@ import dev.prestige.base.event.EventListener;
 import dev.prestige.base.modules.ModuleInitializer;
 import dev.prestige.base.settings.SettingInitializer;
 import net.minecraft.client.Minecraft;
+import org.lwjgl.opengl.Display;
 
 public class PrestigeBase {
     public static Minecraft mc = Minecraft.getMinecraft();
@@ -14,6 +15,7 @@ public class PrestigeBase {
 
 
     public void init() {
+        Display.setTitle("Prestige Base 1.0");
         settingRewriteInitializer = new SettingInitializer();
         eventListener = new EventListener();
         eventListener.init(true);
