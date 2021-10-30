@@ -32,7 +32,7 @@ public class ClickGui extends Module {
 
     @Override
     public void onTick() {
-        if (mc.currentScreen == null)
+        if (mc.currentScreen == null && !isEnabled())
             disableModule();
     }
 
