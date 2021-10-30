@@ -1,17 +1,18 @@
 [
   {
-    "modid": "prestigebase",
-    "name": "PrestigeBase",
-    "description": "Client Base by zPrestige_ for Anarchy clients.",
+    "modid": "oyveybaserewrite",
+    "name": "Oyvey Base Rewrite",
+    "description": "Oyvey Base rewrite for your pastes!!!!",
     "version": "",
     "mcversion": "",
     "url": "",
     "updateUrl": "",
     "authorList": [
+      "alpha432"
       "phobos boiz"
       "moneymod+3 (color picker)"
     ],
-    "credits": "moneymod+3 and phobos boiz",
+    "credits": "moneymod+3 and phobos boiz, alpha432",
     "logoFile": "",
     "screenshots": [],
     "dependencies": []
