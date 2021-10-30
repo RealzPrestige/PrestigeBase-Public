@@ -9,6 +9,7 @@ import dev.prestige.base.settings.impl.StringSetting;
 import dev.prestige.base.utils.RenderUtil;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.util.ChatAllowedCharacters;
 
 import java.awt.*;
 
@@ -27,7 +28,7 @@ public class StringButton extends Button {
         RenderUtil.drawRect(x - 2, y, x + width + 2, y + height, ClickGui.getInstance().backgroundColor.getColor().getRGB());
         if (isInside(mouseX, mouseY))
             RenderUtil.drawRect(x, y, x + width, y + height, new Color(0, 0, 0, 100).getRGB());
-        PrestigeBase.mc.fontRenderer.drawStringWithShadow(stringSetting.isOpen() ? stringSetting.getName() + " " + ChatFormatting.GRAY + stringSetting.getValue() + " ..." : stringSetting.getName() + " " + ChatFormatting.GRAY + stringSetting.getValue(), x + 2, y, -1);
+        PrestigeBase.mc.fontRenderer.drawStringWithShadow(stringSetting.isOpen() ? stringSetting.getName() + " " + ChatFormatting.GRAY + stringSetting.getValue() + "..." : stringSetting.getName() + " " + ChatFormatting.GRAY + stringSetting.getValue(), x + 2, y, -1);
 
     }
 
@@ -43,7 +44,6 @@ public class StringButton extends Button {
     public void onKeyTyped(char typedChar, int keyCode) {
         if (!stringSetting.isOpen())
             return;
-
         if (keyCode == 14) {
             if (stringSetting.getValue() != null && stringSetting.getValue().length() > 0)
                 stringSetting.setValue(stringSetting.getValue().substring(0, stringSetting.getValue().length() - 1));
@@ -51,7 +51,8 @@ public class StringButton extends Button {
             stringSetting.setOpen(false);
         else if (keyCode == 27)
             stringSetting.setOpen(false);
-        else stringSetting.setValue(stringSetting.getValue() + "" + typedChar);
+        else if (ChatAllowedCharacters.isAllowedCharacter(typedChar))
+            stringSetting.setValue(stringSetting.getValue() + "" + typedChar);
     }
 }
 
