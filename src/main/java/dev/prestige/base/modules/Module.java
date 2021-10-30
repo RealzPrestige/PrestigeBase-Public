@@ -33,6 +33,9 @@ public class Module {
     public void onDisable() {
     }
 
+    public void onTick(){
+    }
+
     public void enableModule() {
         enabled.setValue(true);
         onEnable();

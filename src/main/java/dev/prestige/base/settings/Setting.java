@@ -18,8 +18,8 @@ public class Setting<T> {
         this.name = name;
         this.value = value;
         this.module = module;
-        assert PrestigeBase.settingRewriteInitializer != null;
-        PrestigeBase.settingRewriteInitializer.addSetting(this);
+        assert PrestigeBase.settingInitializer != null;
+        PrestigeBase.settingInitializer.addSetting(this);
         module.settings.add(this);
     }
 
@@ -28,8 +28,8 @@ public class Setting<T> {
         this.value = value;
         this.module = module;
         this.shown = shown;
-        assert PrestigeBase.settingRewriteInitializer != null;
-        PrestigeBase.settingRewriteInitializer.addSetting(this);
+        assert PrestigeBase.settingInitializer != null;
+        PrestigeBase.settingInitializer.addSetting(this);
         module.settings.add(this);
     }
 

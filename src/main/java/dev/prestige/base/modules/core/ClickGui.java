@@ -1,5 +1,6 @@
 package dev.prestige.base.modules.core;
 
+import dev.prestige.base.PrestigeBase;
 import dev.prestige.base.modules.Module;
 import dev.prestige.base.modules.ModuleInfo;
 import dev.prestige.base.settings.impl.ColorSetting;
@@ -22,7 +23,17 @@ public class ClickGui extends Module {
     @Override
     public void onEnable() {
         mc.displayGuiScreen(dev.prestige.base.clickgui.ClickGui.getInstance());
-        this.setInstance();
+    }
+
+    @Override
+    public void onDisable() {
+        PrestigeBase.configInitializer.save();
+    }
+
+    @Override
+    public void onTick() {
+        if (mc.currentScreen == null)
+            disableModule();
     }
 
     public static ClickGui getInstance() {

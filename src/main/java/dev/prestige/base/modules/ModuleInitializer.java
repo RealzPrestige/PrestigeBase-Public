@@ -70,6 +70,13 @@ public class ModuleInitializer {
         }
     }
 
+    public void onTick(){
+        for(Module module : moduleList){
+            if(module.isEnabled())
+                module.onTick();
+        }
+    }
+
     public void onKey(int eventKey) {
         if (eventKey == 0 || !Keyboard.getEventKeyState() || PrestigeBase.mc.currentScreen instanceof ClickGui)
             return;

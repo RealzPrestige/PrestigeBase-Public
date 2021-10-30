@@ -5,7 +5,6 @@ import dev.prestige.base.modules.Module;
 import dev.prestige.base.modules.core.ClickGui;
 import dev.prestige.base.settings.Setting;
 import dev.prestige.base.settings.impl.ColorSetting;
-import dev.prestige.base.settings.impl.EnumSetting;
 import dev.prestige.base.utils.RenderUtil;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
@@ -56,7 +55,7 @@ public class Window {
             for (Module module : PrestigeBase.moduleInitializer.getCategoryModules(category)) {
                 int openedHeight = 0;
                 if (module.isOpened) {
-                    assert PrestigeBase.settingRewriteInitializer != null;
+                    assert PrestigeBase.settingInitializer != null;
                     for (Setting settingsRewrite : module.getSettings()) {
                         if (settingsRewrite.getName().equals("Enabled"))
                             continue;
