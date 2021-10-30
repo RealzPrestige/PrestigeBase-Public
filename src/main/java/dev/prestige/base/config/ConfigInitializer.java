@@ -4,6 +4,7 @@ import dev.prestige.base.PrestigeBase;
 import dev.prestige.base.modules.Module;
 import dev.prestige.base.settings.Setting;
 import dev.prestige.base.settings.impl.EnumSetting;
+import dev.prestige.base.settings.impl.StringSetting;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -47,6 +48,13 @@ public class ConfigInitializer {
                         continue;
                     if(setting instanceof EnumSetting){
                         bufferedWriter.write(setting.getName() + ":" + ((EnumSetting) setting).getValueEnum());
+                        bufferedWriter.write("\r\n");
+                        continue;
+                    }
+                    if(setting instanceof StringSetting){
+                        String str = (String) setting.getValue();
+                        String properString = str.replace(" ", "_");
+                        bufferedWriter.write(setting.getName() + ":" + properString);
                         bufferedWriter.write("\r\n");
                         continue;
                     }
