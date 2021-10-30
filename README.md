@@ -1,5 +1,8 @@
 # PrestigeBase-Public
 
+## [State]
+Current working on: ConfigInitializer (Saving/Loading configs)
+
 ## General 
 This is a project for me to learn and share my learning with others. I wanted to make something for everyone that anyone could use and make their clients on.
 This project will probably not get updated unless a large amount of people demand me to make something.
