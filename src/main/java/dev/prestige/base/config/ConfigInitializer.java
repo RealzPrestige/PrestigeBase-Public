@@ -2,6 +2,7 @@ package dev.prestige.base.config;
 
 import dev.prestige.base.PrestigeBase;
 import dev.prestige.base.modules.Module;
+import dev.prestige.base.settings.Setting;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,29 +20,66 @@ public class ConfigInitializer {
     }
 
     public void save() {
-        saveModuleState();
+        saveModuleFile();
     }
 
-    public void load(){
-        loadModuleState();
+    public void load() {
+        setModuleEnabled();
     }
 
-    public void saveModuleState() {
+    public void saveModuleFile() {
         try {
-            File file = new File(path.getAbsolutePath(), "EnabledModuleList.txt");
-            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
             for (Module module : modules) {
-                if(module.isEnabled()){
-                bufferedWriter.write(module.getName());
+                File categoryPath = new File(path.getAbsolutePath() + File.separator + module.getCategory().toString());
+                if (!categoryPath.exists())
+                    categoryPath.mkdir();
+                File file = new File(categoryPath.getAbsolutePath(), module.getName() + ".txt");
+                if (!file.exists())
+                    file.createNewFile();
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+                if (!file.exists())
+                    file.mkdir();
+                bufferedWriter.write("State:" + (module.isEnabled() ? "Enabled" : "Disabled"));
                 bufferedWriter.write("\r\n");
+                for (Setting setting : module.getSettings()) {
+                    if (setting.getName().equals("Keybind"))
+                        continue;
+                    bufferedWriter.write(setting.getName() + ":" + setting.getValue());
+                    bufferedWriter.write("\r\n");
                 }
+                bufferedWriter.write("Keybind:" + module.getKeyBind());
+                bufferedWriter.close();
             }
-            bufferedWriter.close();
         } catch (Exception ignored) {
         }
     }
 
-    public void loadModuleState(){
+    public void setModuleEnabled() {
+        for (Module module : modules) {
+            try {
+                File categoryPath = new File(path.getAbsolutePath() + File.separator + module.getCategory().toString());
+                if (!categoryPath.exists())
+                    continue;
+                File file = new File(categoryPath.getAbsolutePath(), module.getName() + ".txt");
+                if (!file.exists())
+                    continue;
+
+                FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader bufferReader = new BufferedReader(new InputStreamReader(dataInputStream));
+                bufferReader.lines().forEach(line -> {
+                    String clarification = line.split(":")[0];
+                    String state = line.split(":")[1];
+                    if(clarification.equals("State"))
+                    if (state.equals("Enabled"))
+                        module.enableModule();
+                });
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public void loadModuleState() {
         try {
             File file = new File(path.getAbsolutePath(), "EnabledModuleList.txt");
             FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
@@ -50,6 +88,8 @@ public class ConfigInitializer {
             bufferReader.lines().forEach(line -> {
                 for (Module module : modules) {
                     if (module.getName().equals(line)) {
+                        String name = line.split(":")[0];
+                        String bind = line.split(":")[1];
                         module.enableModule();
                     }
                 }
