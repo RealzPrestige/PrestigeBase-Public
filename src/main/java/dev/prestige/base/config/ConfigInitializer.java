@@ -27,6 +27,7 @@ public class ConfigInitializer {
 
     public void load() {
         setModuleEnabled();
+        setModuleBind();
     }
 
     public void saveModuleFile() {
@@ -44,7 +45,7 @@ public class ConfigInitializer {
                 bufferedWriter.write("State:" + (module.isEnabled() ? "Enabled" : "Disabled"));
                 bufferedWriter.write("\r\n");
                 for (Setting setting : module.getSettings()) {
-                    if (setting.getName().equals("Keybind"))
+                    if (setting.getName().equals("Keybind") || setting.getName().equals("Enabled"))
                         continue;
                     if(setting instanceof EnumSetting){
                         bufferedWriter.write(setting.getName() + ":" + ((EnumSetting) setting).getValueEnum());
@@ -93,6 +94,28 @@ public class ConfigInitializer {
     }
 
     public void setModuleBind(){
-
+        for (Module module : modules) {
+            try {
+                File categoryPath = new File(path.getAbsolutePath() + File.separator + module.getCategory().toString());
+                if (!categoryPath.exists())
+                    continue;
+                File file = new File(categoryPath.getAbsolutePath(), module.getName() + ".txt");
+                if (!file.exists())
+                    continue;
+                FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader bufferReader = new BufferedReader(new InputStreamReader(dataInputStream));
+                bufferReader.lines().forEach(line -> {
+                    String clarification = line.split(":")[0];
+                    String state = line.split(":")[1];
+                    if(clarification.equals("Keybind")) {
+                        if (state.equals("0"))
+                            return;
+                        module.setKeyBind(Integer.parseInt(state));
+                    }
+                });
+            } catch (Exception ignored) {
+            }
+        }
     }
 }
