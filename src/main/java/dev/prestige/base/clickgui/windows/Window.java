@@ -1,10 +1,12 @@
 package dev.prestige.base.clickgui.windows;
 
 import dev.prestige.base.PrestigeBase;
+import dev.prestige.base.clickgui.settingbutton.impl.EnumButton;
 import dev.prestige.base.modules.Module;
 import dev.prestige.base.modules.core.ClickGui;
 import dev.prestige.base.settings.Setting;
 import dev.prestige.base.settings.impl.ColorSetting;
+import dev.prestige.base.settings.impl.EnumSetting;
 import dev.prestige.base.utils.RenderUtil;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.init.SoundEvents;
@@ -69,6 +71,9 @@ public class Window {
                                     openedHeight += 10;
                             }
                         }
+                        if (settingsRewrite instanceof EnumSetting)
+                            if (((EnumSetting) settingsRewrite).droppedDown)
+                                openedHeight += ((EnumSetting) settingsRewrite).getModes().size() * 10;
                     }
                 }
                 modules.add(new ModuleWindow(module.getName(), x, y += height, width, height, ClickGui.getInstance().backgroundColor.getColor(), ClickGui.getInstance().color.getColor(), module));

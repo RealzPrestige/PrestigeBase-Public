@@ -4,8 +4,8 @@ import dev.prestige.base.modules.Module;
 import dev.prestige.base.modules.ModuleInfo;
 import dev.prestige.base.settings.impl.*;
 import org.lwjgl.input.Keyboard;
-
 import java.awt.*;
+import java.util.Arrays;
 
 @ModuleInfo(name = "Test Module", category = Module.Category.Core, description = "Module Test")
 public class TestModule extends Module {
@@ -18,7 +18,7 @@ public class TestModule extends Module {
     public StringSetting stringSetting = new StringSetting("String Test", "Boink", this);
     public KeySetting keySetting = new KeySetting("Key Test", Keyboard.KEY_NONE, this);
     public ColorSetting colorSetting = new ColorSetting("Color Test", new Color(255, 255, 255), this);
-    public EnumSetting enumSetting = new EnumSetting("Enum Test", Test.One, this);
+    public EnumSetting enumSetting = new EnumSetting("Enum Test", "One", Arrays.asList("One", "Two", "Three"), this);
 
     public enum Test {One, Two, Three}
 }

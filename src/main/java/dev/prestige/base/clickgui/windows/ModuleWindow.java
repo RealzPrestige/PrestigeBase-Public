@@ -40,24 +40,24 @@ public class ModuleWindow {
     public void getSettings() {
         ArrayList<Button> settingList = new ArrayList<>();
         for (Setting setting : module.getSettings()) {
-             if (setting instanceof BooleanSetting && !setting.getName().equals("Enabled"))
-                 settingList.add(new BooleanButton(setting));
-             if (setting instanceof IntegerSetting)
-                 settingList.add(new IntegerButton(setting, (IntegerSetting) setting));
-             if (setting instanceof FloatSetting)
-                 settingList.add(new FloatButton(setting, (FloatSetting) setting));
-             if (setting instanceof DoubleSetting)
-                 settingList.add(new DoubleButton(setting, (DoubleSetting) setting));
-             if (setting instanceof EnumSetting)
-                 settingList.add(new EnumButton(setting, (EnumSetting) setting));
-             if (setting instanceof StringSetting)
-                 settingList.add(new StringButton(setting, (StringSetting) setting));
-             if (setting instanceof ColorSetting)
-                 settingList.add(new ColorButton(setting, (ColorSetting) setting));
-             if (setting instanceof ParentSetting)
-                 settingList.add(new ParentButton(setting, (ParentSetting) setting));
-             if (setting instanceof KeySetting)
-                 settingList.add(new KeyButton(setting, (KeySetting) setting));
+            if (setting instanceof BooleanSetting && !setting.getName().equals("Enabled"))
+                settingList.add(new BooleanButton(setting));
+            if (setting instanceof IntegerSetting)
+                settingList.add(new IntegerButton(setting, (IntegerSetting) setting));
+            if (setting instanceof FloatSetting)
+                settingList.add(new FloatButton(setting, (FloatSetting) setting));
+            if (setting instanceof DoubleSetting)
+                settingList.add(new DoubleButton(setting, (DoubleSetting) setting));
+            if (setting instanceof EnumSetting)
+                settingList.add(new EnumButton(setting, (EnumSetting) setting));
+            if (setting instanceof StringSetting)
+                settingList.add(new StringButton(setting, (StringSetting) setting));
+            if (setting instanceof ColorSetting)
+                settingList.add(new ColorButton(setting, (ColorSetting) setting));
+            if (setting instanceof ParentSetting)
+                settingList.add(new ParentButton(setting, (ParentSetting) setting));
+            if (setting instanceof KeySetting)
+                settingList.add(new KeyButton(setting, (KeySetting) setting));
         }
         newButton = settingList;
     }
@@ -67,7 +67,7 @@ public class ModuleWindow {
         if (module.isEnabled())
             RenderUtil.drawRect(x + 1, y, x + width - 1, y + height, enabledColor.getRGB());
         if (isInside(mouseX, mouseY))
-            RenderUtil.drawRect(x + 1, y, x + width - 1, y + height, new Color(0,0,0, 100).getRGB());
+            RenderUtil.drawRect(x + 1, y, x + width - 1, y + height, new Color(0, 0, 0, 100).getRGB());
         PrestigeBase.mc.fontRenderer.drawStringWithShadow(name, isInside(mouseX, mouseY) ? x + 2 : x + 1, y + (height / 2f) - (PrestigeBase.mc.fontRenderer.FONT_HEIGHT / 2f), -1);
         if (module.isOpened) {
             int y = this.y;
@@ -83,6 +83,9 @@ public class ModuleWindow {
                         if (((ColorButton) button).getColorSetting().isSelected())
                             y += 10;
                     }
+                    if (button instanceof EnumButton)
+                        if (((EnumButton) button).enumSetting.droppedDown)
+                            y += ((EnumButton) button).enumSetting.getModes().size() * 10;
                 }
             }
             RenderUtil.drawOutlineRect(x + 2, this.y + height, x + width - 2, y + height - 1, ClickGui.getInstance().color.getColor(), 1f);
