@@ -1,7 +1,11 @@
 # PrestigeBase-Public
 
-## [State]
-Current working on: ConfigInitializer (Saving/Loading configs)
+## Changes:
+-=31/10/2021=-
+* Added ConfigInitializer
+* Added Dropdown EnumButton
+* Rewrote EnumSetting
+* Added Sprint (lol)
 
 ## General 
 This is a project for me to learn and share my learning with others. I wanted to make something for everyone that anyone could use and make their clients on.
