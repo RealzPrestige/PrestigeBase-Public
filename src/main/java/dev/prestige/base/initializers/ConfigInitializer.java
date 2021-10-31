@@ -1,11 +1,9 @@
-package dev.prestige.base.config;
+package dev.prestige.base.initializers;
 
-import com.google.gson.JsonElement;
 import dev.prestige.base.PrestigeBase;
 import dev.prestige.base.modules.Module;
 import dev.prestige.base.settings.Setting;
 import dev.prestige.base.settings.impl.*;
-import net.minecraft.block.BlockPlanks;
 
 import java.awt.*;
 import java.io.*;
@@ -25,12 +23,45 @@ public class ConfigInitializer {
 
     public void save() {
         saveModuleFile();
+        saveFriendList();
     }
 
     public void load() {
         setModuleEnabled();
         setModuleBind();
         setModuleSettingValues();
+        loadFriendList();
+    }
+
+    public void saveFriendList(){
+        try{
+            File file = new File(path + File.separator + "Friends.txt");
+            if(!file.exists())
+                file.mkdir();
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+            for(FriendInitializer.FriendPlayer friendPlayer : PrestigeBase.friendInitializer.getFriendList()){
+                bufferedWriter.write(friendPlayer.getName());
+                bufferedWriter.write("\r\n");
+            }
+            bufferedWriter.close();
+        } catch (Exception ignored){
+        }
+    }
+
+    public void loadFriendList(){
+        try{
+            File file = new File(path + File.separator + "Friends.txt");
+            if(!file.exists())
+                file.mkdir();
+            FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
+            DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+            BufferedReader bufferReader = new BufferedReader(new InputStreamReader(dataInputStream));
+            bufferReader.lines().forEach(line -> {
+                String name = line;
+                PrestigeBase.friendInitializer.addFriend(name);
+            });
+        } catch (Exception ignored){
+        }
     }
 
     public void saveModuleFile() {
