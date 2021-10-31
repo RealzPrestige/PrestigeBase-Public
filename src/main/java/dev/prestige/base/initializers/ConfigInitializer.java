@@ -1,6 +1,7 @@
 package dev.prestige.base.initializers;
 
 import dev.prestige.base.PrestigeBase;
+import dev.prestige.base.hud.HudModule;
 import dev.prestige.base.modules.Module;
 import dev.prestige.base.settings.Setting;
 import dev.prestige.base.settings.impl.*;
@@ -24,6 +25,7 @@ public class ConfigInitializer {
     public void save() {
         saveModuleFile();
         saveFriendList();
+        saveHudState();
     }
 
     public void load() {
@@ -31,28 +33,29 @@ public class ConfigInitializer {
         setModuleBind();
         setModuleSettingValues();
         loadFriendList();
+        setHudState();
     }
 
-    public void saveFriendList(){
-        try{
+    public void saveFriendList() {
+        try {
             File file = new File(path + File.separator + "Friends.txt");
-            if(!file.exists())
-                file.mkdir();
+            if (!file.exists())
+                file.createNewFile();
             BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-            for(FriendInitializer.FriendPlayer friendPlayer : PrestigeBase.friendInitializer.getFriendList()){
+            for (FriendInitializer.FriendPlayer friendPlayer : PrestigeBase.friendInitializer.getFriendList()) {
                 bufferedWriter.write(friendPlayer.getName());
                 bufferedWriter.write("\r\n");
             }
             bufferedWriter.close();
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
     }
 
-    public void loadFriendList(){
-        try{
+    public void loadFriendList() {
+        try {
             File file = new File(path + File.separator + "Friends.txt");
-            if(!file.exists())
-                file.mkdir();
+            if (!file.exists())
+                return;
             FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
             DataInputStream dataInputStream = new DataInputStream(fileInputStream);
             BufferedReader bufferReader = new BufferedReader(new InputStreamReader(dataInputStream));
@@ -60,7 +63,7 @@ public class ConfigInitializer {
                 String name = line;
                 PrestigeBase.friendInitializer.addFriend(name);
             });
-        } catch (Exception ignored){
+        } catch (Exception ignored) {
         }
     }
 
@@ -74,8 +77,6 @@ public class ConfigInitializer {
                 if (!file.exists())
                     file.createNewFile();
                 BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
-                if (!file.exists())
-                    file.mkdir();
                 bufferedWriter.write("State:" + (module.isEnabled() ? "Enabled" : "Disabled"));
                 bufferedWriter.write("\r\n");
                 for (Setting setting : module.getSettings()) {
@@ -88,7 +89,7 @@ public class ConfigInitializer {
                         bufferedWriter.write("\r\n");
                         continue;
                     }
-                    if(setting instanceof ColorSetting){
+                    if (setting instanceof ColorSetting) {
                         bufferedWriter.write(setting.getName() + ":" + ((ColorSetting) setting).getColor().getRGB());
                         bufferedWriter.write("\r\n");
                     }
@@ -169,7 +170,7 @@ public class ConfigInitializer {
                     String state = line.split(":")[1];
                     for (Setting setting : module.getSettings()) {
                         if (setting.getName().equals(clarification)) {
-                            if(setting instanceof StringSetting){
+                            if (setting instanceof StringSetting) {
                                 setting.setValue(state);
                                 continue;
                             }
@@ -177,31 +178,80 @@ public class ConfigInitializer {
                                 setting.setValue(Integer.parseInt(state));
                                 continue;
                             }
-                            if(setting instanceof FloatSetting){
+                            if (setting instanceof FloatSetting) {
                                 setting.setValue(Float.parseFloat(state));
                                 continue;
                             }
-                            if(setting instanceof DoubleSetting){
+                            if (setting instanceof DoubleSetting) {
                                 setting.setValue(Double.parseDouble(state));
                                 continue;
                             }
-                            if(setting instanceof BooleanSetting){
+                            if (setting instanceof BooleanSetting) {
                                 setting.setValue(Boolean.parseBoolean(state));
                                 continue;
                             }
-                            if(setting instanceof KeySetting){
+                            if (setting instanceof KeySetting) {
                                 setting.setValue(Integer.parseInt(state));
                                 continue;
                             }
-                            if(setting instanceof ColorSetting){
+                            if (setting instanceof ColorSetting) {
                                 ((ColorSetting) setting).setColor(new Color(Integer.parseInt(state), true));
                                 continue;
                             }
-                            if(setting instanceof EnumSetting){
+                            if (setting instanceof EnumSetting) {
                                 setting.setValue(state);
                             }
                         }
                     }
+                });
+            } catch (Exception ignored) {
+            }
+        }
+    }
+
+    public void saveHudState() {
+        try {
+            for (HudModule hudModule : PrestigeBase.hudComponentInitializer.getHudModules()) {
+                File categoryPath = new File(path.getAbsolutePath() + File.separator + "hud");
+                if (!categoryPath.exists())
+                    categoryPath.mkdir();
+                File file = new File(categoryPath.getAbsolutePath(), hudModule.getName() + ".txt");
+                if (!file.exists())
+                    file.createNewFile();
+                BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file));
+                bufferedWriter.write("State:" + (hudModule.getValue() ? "Enabled" : "Disabled"));
+                bufferedWriter.write("\r\n");
+                bufferedWriter.write("x:" + (hudModule.getRenderX()));
+                bufferedWriter.write("\r\n");
+                bufferedWriter.write("y:" + (hudModule.getRenderY()));
+                bufferedWriter.write("\r\n");
+                bufferedWriter.close();
+            }
+        } catch (Exception ignored) {
+        }
+    }
+
+    public void setHudState() {
+        for (HudModule hudModule : PrestigeBase.hudComponentInitializer.getHudModules()) {
+            try {
+                File categoryPath = new File(path.getAbsolutePath() + File.separator + "hud");
+                if (!categoryPath.exists())
+                    continue;
+                File file = new File(categoryPath.getAbsolutePath(), hudModule.getName() + ".txt");
+                if (!file.exists())
+                    continue;
+                FileInputStream fileInputStream = new FileInputStream(file.getAbsolutePath());
+                DataInputStream dataInputStream = new DataInputStream(fileInputStream);
+                BufferedReader bufferReader = new BufferedReader(new InputStreamReader(dataInputStream));
+                bufferReader.lines().forEach(line -> {
+                    String clarification = line.split(":")[0];
+                    String state = line.split(":")[1];
+                    if(clarification.equals("State"))
+                        hudModule.setValue(state.equals("Enabled"));
+                    if(clarification.equals("x"))
+                        hudModule.setRenderX(Integer.parseInt(state));
+                    if(clarification.equals("y"))
+                        hudModule.setRenderY(Integer.parseInt(state));
                 });
             } catch (Exception ignored) {
             }
