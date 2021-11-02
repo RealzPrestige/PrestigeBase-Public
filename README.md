@@ -2,6 +2,12 @@
 
 ## Changes:
 -=31/10/2021=-
+* Added HudEditor
+* Added HudInitializer
+* Added Listener for drawText HudInitializer in EventListener
+* Added Config System for HudEditor
+
+-=31/10/2021=-
 * Added ConfigInitializer
 * Added Dropdown EnumButton
 * Rewrote EnumSetting

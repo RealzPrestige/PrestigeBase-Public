@@ -39,7 +39,7 @@ public class HudWatermarkComponent extends HudModule {
     }
 
     public void drawText() {
-        PrestigeBase.mc.fontRenderer.drawStringWithShadow("Mint 0.1.1", renderX, renderY, ClickGui.getInstance().color.getColor().getRGB());
+        PrestigeBase.mc.fontRenderer.drawStringWithShadow("PrestigeBase 1.0", renderX, renderY, ClickGui.getInstance().color.getColor().getRGB());
     }
 
     public boolean isInsideDragField(int mouseX, int mouseY) {
