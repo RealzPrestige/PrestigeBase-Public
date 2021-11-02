@@ -14,10 +14,7 @@ public class ClickGui extends Module {
     static ClickGui INSTANCE = new ClickGui();
     public ColorSetting color = new ColorSetting("Color", new Color(255, 255, 255, 255), this);
     public ColorSetting backgroundColor = new ColorSetting("Background Color", new Color(0, 0, 0, 50), this);
-    public IntegerSetting x = new IntegerSetting("x", 500, 0, 1000, this);
-    public IntegerSetting y = new IntegerSetting("y", 500, 0, 1000, this);
-    public IntegerSetting width = new IntegerSetting("x", 500, 0, 1000, this);
-    public IntegerSetting height = new IntegerSetting("y", 500, 0, 1000, this);
+    public IntegerSetting integerSetting = new IntegerSetting("I", 100, 0, 500, this);
     @Override
     public void initializeModule() {
         setInstance();

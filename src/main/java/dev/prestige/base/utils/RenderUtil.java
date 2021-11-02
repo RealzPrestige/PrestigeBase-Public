@@ -5,6 +5,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import org.lwjgl.opengl.GL11;
+
 import java.awt.*;
 
 public class RenderUtil {
@@ -60,5 +61,104 @@ public class RenderUtil {
         tessellator.draw();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+    }
+
+
+    public static void drawRoundedRect(double x, double y, double width, double height, final double radius, final Color color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5, 0.5, 0.5);
+        x *= 2.0;
+        y *= 2.0;
+        width *= 2.0;
+        height *= 2.0;
+        width += x;
+        height += y;
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        GL11.glEnable(2848);
+        GL11.glBegin(9);
+        for (int i = 0; i <= 90; ++i)
+            GL11.glVertex2d(x + radius + Math.sin(i * 3.141592653589793 / 180.0) * radius * -1.0, y + radius + Math.cos(i * 3.141592653589793 / 180.0) * radius * -1.0);
+        for (int i = 90; i <= 180; ++i)
+            GL11.glVertex2d(x + radius + Math.sin(i * 3.141592653589793 / 180.0) * radius * -1.0, height - radius + Math.cos(i * 3.141592653589793 / 180.0) * radius * -1.0);
+        for (int i = 0; i <= 90; ++i)
+            GL11.glVertex2d(width - radius + Math.sin(i * 3.141592653589793 / 180.0) * radius, height - radius + Math.cos(i * 3.141592653589793 / 180.0) * radius);
+        for (int i = 90; i <= 180; ++i)
+            GL11.glVertex2d(width - radius + Math.sin(i * 3.141592653589793 / 180.0) * radius, y + radius + Math.cos(i * 3.141592653589793 / 180.0) * radius);
+        GL11.glEnd();
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glDisable(3042);
+        GL11.glEnable(3553);
+        GL11.glScaled(2.0, 2.0, 2.0);
+        GL11.glPopAttrib();
+    }
+
+    public static void drawTopRoundedRect(double x, double y, double width, double height, final double radius, final Color color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5, 0.5, 0.5);
+        x *= 2.0;
+        y *= 2.0;
+        width *= 2.0;
+        height *= 2.0;
+        width += x;
+        height += y;
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        GL11.glEnable(2848);
+        GL11.glBegin(9);
+        for (int i = 0; i <= 90; ++i) {
+            GL11.glVertex2d(x + radius + Math.sin(i * 3.141592653589793 / 180.0) * radius * -1.0, y + radius + Math.cos(i * 3.141592653589793 / 180.0) * radius * -1.0);
+        }
+        for (int i = 90; i <= 180; ++i) {
+            GL11.glVertex2d(x + 1.0 + Math.sin(i * 3.141592653589793 / 180.0) * -1.0, height - 1.0 + Math.cos(i * 3.141592653589793 / 180.0) * -1.0);
+        }
+        for (int i = 0; i <= 90; ++i) {
+            GL11.glVertex2d(width - 1.0 + Math.sin(i * 3.141592653589793 / 180.0), height - 1.0 + Math.cos(i * 3.141592653589793 / 180.0));
+        }
+        for (int i = 90; i <= 180; ++i) {
+            GL11.glVertex2d(width - radius + Math.sin(i * 3.141592653589793 / 180.0) * radius, y + radius + Math.cos(i * 3.141592653589793 / 180.0) * radius);
+        }
+        GL11.glEnd();
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glDisable(3042);
+        GL11.glEnable(3553);
+        GL11.glScaled(2.0, 2.0, 2.0);
+        GL11.glPopAttrib();
+    }
+
+    public static void drawBottomRoundedRect(double x, double y, double width, double height, final double radius, final Color color) {
+        GL11.glPushAttrib(0);
+        GL11.glScaled(0.5, 0.5, 0.5);
+        x *= 2.0;
+        y *= 2.0;
+        width *= 2.0;
+        height *= 2.0;
+        width += x;
+        height += y;
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glColor4f(color.getRed() / 255.0f, color.getGreen() / 255.0f, color.getBlue() / 255.0f, color.getAlpha() / 255.0f);
+        GL11.glEnable(2848);
+        GL11.glBegin(9);
+        for (int i = 90; i <= 180; ++i) {
+            GL11.glVertex2d(x + radius + Math.sin(i * 3.141592653589793 / 180.0) * radius * -1.0, height - radius + Math.cos(i * 3.141592653589793 / 180.0) * radius * -1.0);
+        }
+        for (int i = 0; i <= 90; ++i) {
+            GL11.glVertex2d(width - radius + Math.sin(i * 3.141592653589793 / 180.0) * radius, height - radius + Math.cos(i * 3.141592653589793 / 180.0) * radius);
+        }
+        GL11.glEnd();
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glDisable(2848);
+        GL11.glDisable(3042);
+        GL11.glEnable(3553);
+        GL11.glScaled(2.0, 2.0, 2.0);
+        GL11.glPopAttrib();
     }
 }
